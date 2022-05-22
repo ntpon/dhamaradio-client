@@ -2,10 +2,11 @@ import { Box } from "@chakra-ui/react"
 import AlbumItem from "../../components/album/album-item"
 import AlbumLayout from "../../components/album/album-layout"
 import ArtistLayout from "../../components/artist/artist-layout"
+import PageContainer from "../../components/layout/page-container"
 
 const ArtistShow = () => {
   return (
-    <Box>
+    <PageContainer title='รายละเอียดพระอาจารย์'>
       <ArtistLayout
         title='หลวงพ่อพุทธทาสภิกขุ'
         description='วัดธารน้ำไหล (สวนโมกขพลาราม) จ.สุราษฎร์ธานี'
@@ -20,7 +21,7 @@ const ArtistShow = () => {
           <AlbumItem />
         </AlbumLayout>
       </ArtistLayout>
-    </Box>
+    </PageContainer>
   )
 }
 export default ArtistShow

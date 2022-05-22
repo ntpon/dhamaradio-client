@@ -1,9 +1,10 @@
 import { Box } from "@chakra-ui/react"
 import AlbumLayout from "../../components/album/album-layout"
 import AlbumItem from "../../components/album/album-item"
+import PageContainer from "../../components/layout/page-container"
 const Album = () => {
   return (
-    <Box>
+    <PageContainer title='รายการทั้งหมด'>
       <AlbumLayout title='รายการทั้งหมด' justifyContent='center'>
         <AlbumItem />
         <AlbumItem />
@@ -11,7 +12,7 @@ const Album = () => {
         <AlbumItem />
         <AlbumItem />
       </AlbumLayout>
-    </Box>
+    </PageContainer>
   )
 }
 

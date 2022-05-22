@@ -2,10 +2,11 @@ import { Box } from "@chakra-ui/react"
 import AudioLayout from "../../components/audio/audio-layout"
 import AudioTable from "../../components/audio/audio-table"
 import MainContainer from "../../components/layout/main-container"
+import PageContainer from "../../components/layout/page-container"
 
 const History = () => {
   return (
-    <Box height='100%'>
+    <PageContainer title='ประวัติการฟัง'>
       <AudioLayout
         color='teal'
         title='ประวัติการฟัง'
@@ -13,7 +14,7 @@ const History = () => {
       >
         <AudioTable />
       </AudioLayout>
-    </Box>
+    </PageContainer>
   )
 }
 

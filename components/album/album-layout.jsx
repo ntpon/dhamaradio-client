@@ -15,7 +15,7 @@ import SongItem from "./album-item"
 const AlbumLayout = ({ title, children, ...othersPropsContainer }) => {
   return (
     <Box>
-      <Center paddingY='15px'>
+      <Center paddingY='20px'>
         <Heading as='h2' color='gray.600' fontWeight='400' fontSize='24px'>
           {title}
         </Heading>
