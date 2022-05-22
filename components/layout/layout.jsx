@@ -6,12 +6,12 @@ const Layout = ({ children }) => {
   return (
     <Box>
       <Navbar />
-      <Box>
+      <Box height='calc(100vh - 65px)'>
         <Sidebar />
         <Box
           marginLeft='250px'
-          paddingLeft='10px'
-          bg='gray.50'
+          // paddingLeft='10px'
+          // bg='gray.50'
           minHeight='100%'
           zIndex='1'
           top='65'

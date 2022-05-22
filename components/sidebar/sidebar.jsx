@@ -1,35 +1,72 @@
+import { Box, List, Divider } from "@chakra-ui/react"
 import {
-  Box,
-  List,
-  ListItem,
-  LinkBox,
-  LinkOverlay,
-  ListIcon,
-} from "@chakra-ui/react"
-import { MdHome, MdSearch, MdLibraryMusic } from "react-icons/md"
+  MdHome,
+  MdAccountBox,
+  MdQueueMusic,
+  MdArticle,
+  MdBookmark,
+  MdHistory,
+  MdManageAccounts,
+  MdMenuBook,
+  MdContactMail,
+} from "react-icons/md"
 import NextLink from "next/link"
-import { useRouter } from "next/router"
+import SidebarItem from "./sidebar-item"
+import SidebarHeader from "./sidebar-header"
 const navMenu = [
   {
-    name: "Home",
+    name: "หน้าหลัก",
     icon: MdHome,
     route: "/",
   },
   {
-    name: "Search",
-    icon: MdSearch,
-    route: "/search",
+    name: "พระอาจารย์",
+    icon: MdAccountBox,
+    route: "/artist",
   },
   {
-    name: "Your Library",
-    icon: MdLibraryMusic,
-    route: "/library",
+    name: "รายการเสียงธรรม",
+    icon: MdQueueMusic,
+    route: "/album",
+  },
+  // {
+  //   name: "คำสอนพระพุทธ",
+  //   icon: MdArticle,
+  //   route: "/article",
+  // },
+]
+
+const navMemberMenu = [
+  {
+    name: "รายการที่บันทึกไว้",
+    icon: MdBookmark,
+    route: "/member/favorite",
+  },
+  {
+    name: "ประวัติการฟัง",
+    icon: MdHistory,
+    route: "/member/history",
+  },
+  {
+    name: "ข้อมูลส่วนตัว",
+    icon: MdManageAccounts,
+    route: "/member/profile",
   },
 ]
 
+const navOtherMenu = [
+  {
+    name: "คำถามที่พบบ่อย",
+    icon: MdMenuBook,
+    route: "/reference",
+  },
+  {
+    name: "ติดต่อเรา",
+    icon: MdContactMail,
+    route: "/contact",
+  },
+]
 const Sidebar = () => {
-  const router = useRouter()
-  const currentRoute = router.pathname
   return (
     <Box
       height='100%'
@@ -41,27 +78,23 @@ const Sidebar = () => {
       zIndex='2'
     >
       <List marginTop='15px'>
+        <SidebarHeader name='เมนูหลัก' />
         {navMenu.map((nav) => (
-          <ListItem key={nav.name} marginBottom='10px'>
-            <NextLink href={nav.route} passHref>
-              <LinkBox as='nav' cursor='pointer'>
-                <LinkOverlay
-                  color={currentRoute === nav.route ? "black" : "gray.600"}
-                >
-                  <ListIcon
-                    as={nav.icon}
-                    marginX='15px'
-                    fontSize='3xl'
-                    bg='teal'
-                    borderRadius='2xl'
-                    color='white'
-                    padding='5px'
-                  />
-                  {nav.name}
-                </LinkOverlay>
-              </LinkBox>
-            </NextLink>
-          </ListItem>
+          <SidebarItem {...nav} key={nav.route} />
+        ))}
+      </List>
+      <Divider />
+      <List marginTop='15px'>
+        <SidebarHeader name='สมาชิก' />
+        {navMemberMenu.map((nav) => (
+          <SidebarItem {...nav} key={nav.route} />
+        ))}
+      </List>
+      <Divider />
+      <List marginTop='15px'>
+        <SidebarHeader name='ข้อมูลอื่นๆ' />
+        {navOtherMenu.map((nav) => (
+          <SidebarItem {...nav} key={nav.route} />
         ))}
       </List>
     </Box>
