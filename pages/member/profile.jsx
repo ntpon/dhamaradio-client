@@ -21,8 +21,12 @@ const Profile = () => {
   return (
     <PageContainer title='ข้อมูลส่วนตัว | ข้อมูลผู้ใช้งาน'>
       <MainContainer title='ข้อมูลส่วนตัว | ข้อมูลผู้ใช้งาน'>
-        <Flex justifyContent='center'>
-          <Flex width='40%' justifyContent='center'>
+        <Flex
+          justifyContent='center'
+          alignItems={{ base: "center", md: "start" }}
+          flexDirection={{ base: "column", md: "row" }}
+        >
+          <Flex width={{ base: "100%", md: "40%" }} justifyContent='center'>
             <Box padding='25px'>
               <Box>
                 <Avatar size='2xl' />
@@ -34,7 +38,11 @@ const Profile = () => {
               </Box>
             </Box>
           </Flex>
-          <Flex width='60%' flexDirection='column' alignItems='center'>
+          <Flex
+            width={{ base: "100%", md: "60%" }}
+            flexDirection='column'
+            alignItems='center'
+          >
             <Box padding='25px' width='100%'>
               <Heading
                 as='h2'

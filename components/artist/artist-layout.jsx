@@ -14,7 +14,7 @@ const ArtistLayout = ({ title, description, children }) => {
           <Avatar size='2xl' src='https://bit.ly/code-beast' />
         </Box>
         <Box lineHeight='8'>
-          <Heading>{title}</Heading>
+          <Heading fontSize='24px'>{title}</Heading>
           <Text color='gray.700'>{description}</Text>
         </Box>
       </Flex>

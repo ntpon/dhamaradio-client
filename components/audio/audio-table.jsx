@@ -2,6 +2,7 @@ import {
   Box,
   IconButton,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Th,
@@ -12,7 +13,7 @@ import { AiOutlineClockCircle } from "react-icons/ai"
 import { MdPlaylistAdd, MdFavoriteBorder } from "react-icons/md"
 const AudioTable = ({ isAction }) => {
   return (
-    <Box>
+    <TableContainer>
       <Table variant='unstyled'>
         <Thead>
           <Tr>
@@ -70,7 +71,7 @@ const AudioTable = ({ isAction }) => {
             ))}
         </Tbody>
       </Table>
-    </Box>
+    </TableContainer>
   )
 }
 

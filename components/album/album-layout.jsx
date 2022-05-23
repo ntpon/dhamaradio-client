@@ -16,7 +16,13 @@ const AlbumLayout = ({ title, children, ...othersPropsContainer }) => {
   return (
     <Box>
       <Center paddingY='20px'>
-        <Heading as='h2' color='gray.600' fontWeight='400' fontSize='24px'>
+        <Heading
+          as='h2'
+          color='gray.600'
+          fontWeight='400'
+          fontSize='24px'
+          textAlign='center'
+        >
           {title}
         </Heading>
       </Center>

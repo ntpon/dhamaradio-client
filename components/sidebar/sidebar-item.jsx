@@ -8,20 +8,26 @@ import {
 } from "@chakra-ui/react"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-const SidebarItem = ({ name, route, icon }) => {
+const SidebarItem = ({ name, route, icon, end = false }) => {
   const router = useRouter()
   const currentRoute = router.pathname
-
+  const checkIsCurrentRoute = () => {
+    if (end) {
+      return route === currentRoute
+    } else {
+      return route !== "/" && currentRoute.includes(route)
+    }
+  }
   return (
     <ListItem
       key={name}
       marginBottom='5px'
       borderLeft={
-        currentRoute === route ? "5px solid teal" : "5px solid transparent"
+        checkIsCurrentRoute() ? "5px solid teal" : "5px solid transparent"
       }
-      bg={currentRoute === route ? "gray.100" : ""}
+      bg={checkIsCurrentRoute() ? "gray.100" : ""}
       paddingY='7px'
-      color={currentRoute === route ? "black" : "gray.600"}
+      color={checkIsCurrentRoute() ? "black" : "gray.600"}
     >
       <NextLink href={route} passHref>
         <LinkBox as='nav' cursor='pointer'>

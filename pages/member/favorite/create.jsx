@@ -17,7 +17,7 @@ const FavoriteCreate = () => {
     <PageContainer title='สร้างรายการใหม่'>
       <MainContainer title='สร้างรายการใหม่'>
         <Box display='flex' justifyContent='center'>
-          <Box minWidth='500px'>
+          <Box minWidth={{ base: "100%", md: "500px" }} padding='15px'>
             <FormControl>
               <FormLabel htmlFor='name'>ชื่อรายการ</FormLabel>
               <Input id='name' type='text' placeholder='เพิ่มชื่อรายการ' />

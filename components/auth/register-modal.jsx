@@ -18,12 +18,24 @@ import {
   Flex,
 } from "@chakra-ui/react"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  changeIsModalLogin,
+  changeIsModalRegister,
+} from "../../lib/store/application/application.slice"
 const RegisterModal = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isModalRegister } = useSelector((state) => state.application)
+  const dispatch = useDispatch()
   return (
-    <Modal isOpen={true} onClose={onClose} isCentered>
+    <Modal
+      isOpen={isModalRegister}
+      onClose={() => {
+        dispatch(changeIsModalRegister(false))
+      }}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent width='350px'>
         <ModalHeader color='gray.700'>สมัครสมาชิก</ModalHeader>
@@ -90,7 +102,14 @@ const RegisterModal = () => {
           </Button>
           <Flex alignItem='center' marginTop='15px'>
             <Text marginTop='2px'>เป็นสมาชิกอยู่แล้ว?</Text>
-            <Button variant='link' marginLeft='10px' color='teal'>
+            <Button
+              variant='link'
+              marginLeft='10px'
+              color='teal'
+              onClick={() => {
+                dispatch(changeIsModalLogin(true))
+              }}
+            >
               เข้าสู่ระบบ
             </Button>
           </Flex>

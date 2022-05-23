@@ -15,7 +15,7 @@ const Contact = () => {
     <PageContainer title='ติดต่อเรา'>
       <MainLayout title='ติดต่อเรา'>
         <Flex padding='15px'>
-          <Box flex='2'>
+          <Box flex='2' display={{ base: "none", md: "block" }}>
             <Image
               src='/images/contact.jpg'
               alt='phone contact'

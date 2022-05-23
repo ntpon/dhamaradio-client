@@ -9,10 +9,18 @@ import {
   InputLeftElement,
   Input,
   Divider,
+  IconButton,
 } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
+import { MdMenu } from "react-icons/md"
+import { useDispatch } from "react-redux"
+import {
+  changeIsModalLogin,
+  changeIsModalRegister,
+} from "../../lib/store/application/application.slice"
+const Navbar = ({ setShowSidebar }) => {
+  const dispatch = useDispatch()
 
-const Navbar = () => {
   return (
     <Flex
       align='center'
@@ -26,15 +34,35 @@ const Navbar = () => {
       bg='white'
     >
       <Flex align='center'>
-        <Image src='/images/logo.png' height='50px' width='50px' alt='logo' />
-        <Heading marginLeft='5px' fontSize='20px' color='teal.600'>
+        <Box display={{ md: "none" }}>
+          <IconButton
+            bg='transparent'
+            fontSize='24px'
+            onClick={() => setShowSidebar((prev) => !prev)}
+          >
+            <MdMenu />
+          </IconButton>
+        </Box>
+        <Image
+          src='/images/logo.png'
+          height='50px'
+          width='50px'
+          alt='logo'
+          display={{ base: "none", md: "block" }}
+        />
+        <Heading
+          marginLeft='5px'
+          fontSize='20px'
+          color='teal.600'
+          display={{ base: "none", md: "block" }}
+        >
           DHAMA
           <Text as='span' color='gray'>
             RADIO
           </Text>
         </Heading>
       </Flex>
-      <Flex width='35%'>
+      <Flex width={{ base: "50%", md: "35%" }}>
         <InputGroup>
           <InputLeftElement pointerEvents='none'>
             <SearchIcon color='gray.300' />
@@ -43,13 +71,24 @@ const Navbar = () => {
         </InputGroup>
       </Flex>
       <Flex>
-        <Button colorScheme='teal' variant='solid'>
+        <Button
+          colorScheme='teal'
+          variant='solid'
+          onClick={() => {
+            dispatch(changeIsModalLogin(true))
+          }}
+        >
           เข้าสู่ระบบ
         </Button>
-        <Box>
+        <Box variant='solid' display={{ base: "none", md: "block" }}>
           <Divider orientation='vertical' height='100%' marginX='5px' />
         </Box>
-        <Button colorScheme='teal' variant='solid'>
+        <Button
+          colorScheme='teal'
+          variant='solid'
+          display={{ base: "none", md: "block" }}
+          onClick={() => dispatch(changeIsModalRegister(true))}
+        >
           สมัครสมาชิก
         </Button>
       </Flex>
