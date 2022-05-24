@@ -18,9 +18,7 @@ const Layout = ({ children }) => {
     if (user) {
       dispatch(loginSuccess(user))
     }
-    return () => {
-      setLoading(false)
-    }
+    setLoading(false)
   }, [dispatch])
   if (loading) {
     return <></>
