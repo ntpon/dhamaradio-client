@@ -1,13 +1,30 @@
 import { Box } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import Navbar from "../navbar/navbar"
 import Player from "../player/player"
 import Sidebar from "../sidebar/sidebar"
 import LoginModal from "../auth/login-modal"
 import RegisterModal from "../auth/register-modal"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { getUserFromStorage } from "../../lib/user"
+import { loginSuccess } from "../../lib/store/auth/auth.slice"
 const Layout = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const user = getUserFromStorage()
+    if (user) {
+      dispatch(loginSuccess(user))
+    }
+    return () => {
+      setLoading(false)
+    }
+  }, [dispatch])
+  if (loading) {
+    return <></>
+  }
   // console.log(isModalLogin)
   // const isModalLogin = useStoreState((state) => state.isModalLogin)
   // console.log(state)

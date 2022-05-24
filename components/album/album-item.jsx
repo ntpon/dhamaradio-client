@@ -6,6 +6,7 @@ import {
   LinkOverlay,
   Text,
 } from "@chakra-ui/react"
+import { Skeleton, SkeletonCircle, SkeletonText, Stack } from "@chakra-ui/react"
 
 import NextLink from "next/link"
 import { MdPlayCircle } from "react-icons/md"
@@ -13,11 +14,13 @@ import { MdPlayCircle } from "react-icons/md"
 const AlbumItem = ({
   name,
   description,
-  image = "https://picsum.photos/400",
+  image = "/images/album-new.png",
+  slug,
+  isLoading,
 }) => {
   return (
     <Box marginTop='10px' width='160px' height='250px' marginX='15px'>
-      <NextLink href='/album/1' passHref>
+      <NextLink href={slug} passHref>
         <LinkBox
           cursor='pointer'
           sx={{

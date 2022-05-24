@@ -11,8 +11,16 @@ import {
   Flex,
 } from "@chakra-ui/react"
 import SongItem from "./album-item"
+import { Skeleton, SkeletonCircle, SkeletonText, Stack } from "@chakra-ui/react"
+import AlbumItem from "./album-item"
+import AlbumItemNew from "./album-item-new"
 
-const AlbumLayout = ({ title, children, ...othersPropsContainer }) => {
+const AlbumLayout = ({
+  title,
+  children,
+  isLoading,
+  ...othersPropsContainer
+}) => {
   return (
     <Box>
       <Center paddingY='20px'>
@@ -27,8 +35,19 @@ const AlbumLayout = ({ title, children, ...othersPropsContainer }) => {
         </Heading>
       </Center>
       <Divider />
-      <Flex wrap='wrap' {...othersPropsContainer}>
-        {children}
+      <Flex marginTop='15px' wrap='wrap' {...othersPropsContainer}>
+        {isLoading ? (
+          <>
+            <Skeleton marginLeft='10px'>
+              <AlbumItemNew />
+            </Skeleton>
+            <Skeleton marginLeft='10px'>
+              <AlbumItemNew />
+            </Skeleton>
+          </>
+        ) : (
+          children
+        )}
       </Flex>
     </Box>
   )

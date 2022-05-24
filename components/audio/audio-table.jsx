@@ -1,3 +1,5 @@
+import { Skeleton, SkeletonCircle, SkeletonText, Stack } from "@chakra-ui/react"
+
 import {
   Box,
   IconButton,
@@ -11,28 +13,43 @@ import {
 } from "@chakra-ui/react"
 import { AiOutlineClockCircle } from "react-icons/ai"
 import { MdPlaylistAdd, MdFavoriteBorder } from "react-icons/md"
-const AudioTable = ({ isAction }) => {
+const AudioTable = ({ isAction, audios = [], isLoading }) => {
   return (
     <TableContainer>
       <Table variant='unstyled'>
         <Thead>
           <Tr>
             <Th textAlign='center'>#</Th>
-            <Th textAlign='center'>เสียง</Th>
-            <Th textAlign='center'>พระอาจารย์</Th>
-            <Th textAlign='center'>วันที่เพิ่มข้อมูล</Th>
-            <Th textAlign='center'>
+            <Th>เสียง</Th>
+            <Th>พระอาจารย์</Th>
+            <Th>วันที่เพิ่มข้อมูล</Th>
+            {/* <Th >
               <AiOutlineClockCircle />
-            </Th>
-            {isAction && <Th textAlign='center'>บันทึก</Th>}
+            </Th> */}
+            {isAction && <Th>บันทึก</Th>}
           </Tr>
         </Thead>
         <Tbody>
-          {Array(15)
-            .fill(1)
-            .map((song, i) => (
+          {isLoading && (
+            <Tr>
+              <Td>
+                <Skeleton height='20px' />
+              </Td>
+              <Td>
+                <Skeleton height='20px' />
+              </Td>
+              <Td>
+                <Skeleton height='20px' />
+              </Td>
+              <Td>
+                <Skeleton height='20px' />
+              </Td>
+            </Tr>
+          )}
+          {!isLoading &&
+            audios.map((audio, i) => (
               <Tr
-                key={i}
+                key={audio._id}
                 sx={{
                   transform: "all .3s",
                   "&:hover": {
@@ -42,23 +59,17 @@ const AudioTable = ({ isAction }) => {
                   cursor: "pointer",
                 }}
               >
-                <Td textAlign='center' padding='10px'>
+                <Td padding='10px' textAlign='center'>
                   {i + 1}
                 </Td>
-                <Td textAlign='center' padding='10px'>
-                  {"เสียง sdsadasd asdasasda asdas"}
-                </Td>
-                <Td textAlign='center' padding='10px'>
-                  {"พระอาจารย์"}
-                </Td>
-                <Td textAlign='center' padding='10px'>
-                  {"เวลา"}
-                </Td>
-                <Td textAlign='center' padding='10px'>
-                  {"เวลา"}
-                </Td>
+                <Td padding='10px'>{audio.name}</Td>
+                <Td padding='10px'>{audio.priest_name}</Td>
+                <Td padding='10px'>{audio.updatedAt}</Td>
+                {/* <Td  padding='10px'>
+                {"เวลา"}
+              </Td> */}
                 {isAction && (
-                  <Td textAlign='center' padding='10px'>
+                  <Td padding='10px'>
                     <IconButton bg='none' fontSize='2xl'>
                       <MdPlaylistAdd />
                     </IconButton>

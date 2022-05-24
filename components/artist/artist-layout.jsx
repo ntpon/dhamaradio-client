@@ -1,6 +1,6 @@
 import { Avatar, Box, Center, Flex, Heading, Text } from "@chakra-ui/react"
 
-const ArtistLayout = ({ title, description, children }) => {
+const ArtistLayout = ({ title, image, description, children }) => {
   return (
     <Box>
       <Flex
@@ -11,7 +11,7 @@ const ArtistLayout = ({ title, description, children }) => {
         bg='blackAlpha.50'
       >
         <Box marginRight='20px'>
-          <Avatar size='2xl' src='https://bit.ly/code-beast' />
+          <Avatar size='2xl' src={image} />
         </Box>
         <Box lineHeight='8'>
           <Heading fontSize='24px'>{title}</Heading>

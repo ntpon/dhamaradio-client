@@ -7,15 +7,19 @@ import {
   Text,
 } from "@chakra-ui/react"
 import NextLink from "next/link"
-const ArtistItem = () => {
+const ArtistItem = ({ slug, image, name }) => {
   return (
-    <Box margin='10px'>
-      <NextLink href='/artist/1' passHref>
+    <Box margin='5px' width='170px'>
+      <NextLink href={`/artist/${slug}`} passHref>
         <LinkBox cursor='pointer'>
-          <LinkOverlay>
-            <Avatar size='2xl' src='https://bit.ly/code-beast' />
+          <LinkOverlay
+            display='flex'
+            flexDirection='column'
+            alignItems='center'
+          >
+            <Avatar size='2xl' src={image} />
             <Text marginTop='10px' textAlign='center'>
-              พระอาจารย์
+              {name}
             </Text>
           </LinkOverlay>
         </LinkBox>

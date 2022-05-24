@@ -13,14 +13,15 @@ import {
 } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
 import { MdMenu } from "react-icons/md"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
   changeIsModalLogin,
   changeIsModalRegister,
 } from "../../lib/store/application/application.slice"
+import { logout } from "../../lib/store/auth/auth.slice"
 const Navbar = ({ setShowSidebar }) => {
   const dispatch = useDispatch()
-
+  const { userId } = useSelector((state) => state.auth)
   return (
     <Flex
       align='center'
@@ -71,26 +72,40 @@ const Navbar = ({ setShowSidebar }) => {
         </InputGroup>
       </Flex>
       <Flex>
-        <Button
-          colorScheme='teal'
-          variant='solid'
-          onClick={() => {
-            dispatch(changeIsModalLogin(true))
-          }}
-        >
-          เข้าสู่ระบบ
-        </Button>
-        <Box variant='solid' display={{ base: "none", md: "block" }}>
-          <Divider orientation='vertical' height='100%' marginX='5px' />
-        </Box>
-        <Button
-          colorScheme='teal'
-          variant='solid'
-          display={{ base: "none", md: "block" }}
-          onClick={() => dispatch(changeIsModalRegister(true))}
-        >
-          สมัครสมาชิก
-        </Button>
+        {userId ? (
+          <Button
+            colorScheme='teal'
+            variant='solid'
+            onClick={() => {
+              dispatch(logout())
+            }}
+          >
+            ออกจากระบบ
+          </Button>
+        ) : (
+          <>
+            <Button
+              colorScheme='teal'
+              variant='solid'
+              onClick={() => {
+                dispatch(changeIsModalLogin(true))
+              }}
+            >
+              เข้าสู่ระบบ
+            </Button>
+            <Box variant='solid' display={{ base: "none", md: "block" }}>
+              <Divider orientation='vertical' height='100%' marginX='5px' />
+            </Box>
+            <Button
+              colorScheme='teal'
+              variant='solid'
+              display={{ base: "none", md: "block" }}
+              onClick={() => dispatch(changeIsModalRegister(true))}
+            >
+              สมัครสมาชิก
+            </Button>
+          </>
+        )}
       </Flex>
     </Flex>
   )

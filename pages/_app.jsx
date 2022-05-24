@@ -2,7 +2,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { Provider } from "react-redux"
 import Layout from "../components/layout/layout"
 import Fonts from "../components/fonts/fonts"
-import { store } from "../lib/store"
+import { store } from "../lib/store/store"
 
 import "../styles/globals.css"
 const theme = extendTheme({
