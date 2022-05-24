@@ -16,6 +16,7 @@ import {
   Box,
   Text,
   Flex,
+  useToast,
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -33,10 +34,12 @@ const LoginModal = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const toast = useToast()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const { data } = await sendRequest(login(email, password))
+      const { message, data } = await sendRequest(login(email, password))
       dispatch(
         loginSuccess({
           role: data.role,
@@ -45,13 +48,23 @@ const LoginModal = () => {
         })
       )
       dispatch(changeIsModalLogin(false))
-    } catch (error) {}
+      toast({ title: message, status: "success", isClosable: true })
+      reset()
+    } catch (error) {
+      toast({ title: error.message, status: "error", isClosable: true })
+    }
+  }
+
+  const reset = () => {
+    setEmail("")
+    setPassword("")
   }
   return (
     <Modal
       isOpen={isModalLogin}
       onClose={() => {
         dispatch(changeIsModalLogin(false))
+        reset()
       }}
       isCentered
     >
@@ -106,7 +119,7 @@ const LoginModal = () => {
             >
               เข้าสู่ระบบ
             </Button>
-            <Flex alignItem='center' marginTop='15px'>
+            <Flex marginTop='15px'>
               <Text marginTop='2px'>ไม่ได้เป็นสมาชิกเว็บไซต์?</Text>
               <Button
                 variant='link'

@@ -7,13 +7,15 @@ import {
   Table,
   Text,
 } from "@chakra-ui/react"
+import { Skeleton, SkeletonCircle, SkeletonText, Stack } from "@chakra-ui/react"
 
 const AudioLayout = ({
   color,
   image = "/images/album-new.png",
-  title,
-  description,
+  title = "",
+  description = "",
   children,
+  isLoading,
 }) => {
   return (
     <Box>
@@ -28,10 +30,20 @@ const AudioLayout = ({
           />
         </Box>
         <Box marginLeft='15px' lineHeight='8'>
-          <Heading color='teal.600'>{title}</Heading>
-          <Text>{description}</Text>
+          {isLoading ? (
+            <Stack>
+              <Skeleton height='50px' />
+              <Skeleton height='20px' width='500px' />
+            </Stack>
+          ) : (
+            <>
+              <Heading color='teal.600'>{title}</Heading>
+              <Text>{description}</Text>
+            </>
+          )}
         </Box>
       </Flex>
+
       <Box marginTop='15px'>{children}</Box>
       <Divider />
     </Box>

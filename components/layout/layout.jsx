@@ -8,6 +8,8 @@ import RegisterModal from "../auth/register-modal"
 import { useSelector, useDispatch } from "react-redux"
 import { getUserFromStorage } from "../../lib/user"
 import { loginSuccess } from "../../lib/store/auth/auth.slice"
+import FavoriteModal from "../favorite/favorite-modal"
+
 const Layout = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -48,6 +50,7 @@ const Layout = ({ children }) => {
       <Player />
       <LoginModal />
       <RegisterModal />
+      <FavoriteModal />
     </Box>
   )
 }

@@ -10,7 +10,6 @@ import { useHttpClient } from "../../../lib/hooks/use-http"
 const Favorite = () => {
   const { isLoading, sendRequest, error } = useHttpClient()
   const [albums, setAlbums] = useState()
-  console.log(isLoading)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +25,7 @@ const Favorite = () => {
       <AlbumLayout title='รายการเสียงที่บันทึกไว้' isLoading={isLoading}>
         <AlbumItem
           name='รายการโปรด'
-          description='บันทึกรายการโปรด'
+          description='รวมเสียงที่ชื่นชอบ'
           slug='/member/favorite/me'
         />
 

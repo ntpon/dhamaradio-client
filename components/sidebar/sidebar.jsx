@@ -53,16 +53,19 @@ const navMemberMenu = [
     name: "รายการที่บันทึกไว้",
     icon: MdBookmark,
     route: "/member/favorite",
+    member: true,
   },
   {
     name: "ประวัติการฟัง",
     icon: MdHistory,
     route: "/member/history",
+    member: true,
   },
   {
     name: "ข้อมูลส่วนตัว",
     icon: MdManageAccounts,
     route: "/member/profile",
+    member: true,
   },
 ]
 

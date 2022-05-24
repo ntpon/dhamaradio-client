@@ -24,15 +24,14 @@ const FavoriteShow = () => {
 
   return (
     <PageContainer title='รายการโปรดที่บันทึกไว้'>
-      {album && (
-        <AudioLayout
-          color='teal'
-          title={album.name}
-          description={album.description}
-        >
-          <AudioTable isAction audios={album.audios} />
-        </AudioLayout>
-      )}
+      <AudioLayout
+        color='teal'
+        title={album?.name}
+        description={album?.description}
+        isLoading={isLoading}
+      >
+        <AudioTable audios={album?.audios} isLoading={isLoading} />
+      </AudioLayout>
     </PageContainer>
   )
 }

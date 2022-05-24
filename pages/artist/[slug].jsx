@@ -19,7 +19,7 @@ const ArtistShow = ({ response }) => {
         >
           {albums.map((album) => (
             <AlbumItem
-              key={album.id}
+              key={album._id}
               name={album.name}
               image={album.image.url}
               description={album.description}
