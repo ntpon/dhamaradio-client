@@ -17,15 +17,19 @@ import { MdPlaylistAdd, MdFavoriteBorder } from "react-icons/md"
 import { formatDate } from "../../lib/formatters"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  changeActiveAlbum,
+  changeActiveAudio,
+  changeActiveAudios,
   changeIsModalAddFavorite,
   changeIsModalLogin,
   setSelectAudioId,
 } from "../../lib/store/application/application.slice"
 import { useHttpClient } from "../../lib/hooks/use-http"
 import { addAudioToDefaultFavoriteList } from "../../lib/api"
-const AudioTable = ({ isAction, audios = [], isLoading }) => {
+const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
   const dispatch = useDispatch()
   const { userId } = useSelector((state) => state.auth)
+  const { activeAudio } = useSelector((state) => state.application)
   const toast = useToast()
   const {
     isLoading: { isLoadingNew },
@@ -55,6 +59,11 @@ const AudioTable = ({ isAction, audios = [], isLoading }) => {
     } catch (error) {
       toast({ title: error.message, status: "error", isClosable: true })
     }
+  }
+  const handlePlay = (activeAudio) => {
+    dispatch(changeActiveAudios(audios))
+    dispatch(changeActiveAudio(activeAudio))
+    dispatch(changeActiveAlbum(albumName))
   }
   return (
     <TableContainer>
@@ -95,6 +104,7 @@ const AudioTable = ({ isAction, audios = [], isLoading }) => {
             audios.map((audio, i) => (
               <Tr
                 key={audio._id}
+                bg={activeAudio?._id === audio._id && "blackAlpha.50"}
                 sx={{
                   transform: "all .3s",
                   "&:hover": {
@@ -103,6 +113,7 @@ const AudioTable = ({ isAction, audios = [], isLoading }) => {
                   },
                   cursor: "pointer",
                 }}
+                onClick={() => handlePlay(audio)}
               >
                 <Td padding='10px' textAlign='center'>
                   {i + 1}
@@ -119,6 +130,7 @@ const AudioTable = ({ isAction, audios = [], isLoading }) => {
                       bg='none'
                       fontSize='2xl'
                       onClick={() => handleOpenAddFavorite(audio._id)}
+                      zIndex='1'
                     >
                       <MdPlaylistAdd />
                     </IconButton>
@@ -126,6 +138,7 @@ const AudioTable = ({ isAction, audios = [], isLoading }) => {
                       bg='none'
                       fontSize='2xl'
                       onClick={() => handleOpenAddDefaultFavorite(audio._id)}
+                      zIndex='1'
                     >
                       <MdFavoriteBorder />
                     </IconButton>

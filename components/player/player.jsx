@@ -9,7 +9,7 @@ import {
   RangeSliderFilledTrack,
   RangeSliderThumb,
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   MdSkipPrevious,
   MdSkipNext,
@@ -18,18 +18,126 @@ import {
   MdVolumeUp,
   MdFormatListBulleted,
 } from "react-icons/md"
-
+import ReactPlayer from "react-player"
+import PlayerList from "./player-list"
+import { useSelector, useDispatch } from "react-redux"
+import { formatTime } from "../../lib/formatters"
+import { changeActiveAudio } from "../../lib/store/application/application.slice"
+import { useHttpClient } from "../../lib/hooks/use-http"
+import { addAudioToHistory } from "../../lib/api"
 const Player = () => {
+  const { activeAudio, activeAudios, activeAlbum } = useSelector(
+    (state) => state.application
+  )
+  const { userId } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const [isShowPlayerList, setIsShowPlayerList] = useState(false)
+  const playerRef = useRef(null)
   const [playing, setPlaying] = useState(true)
+  const [volume, setVolume] = useState([0, 50])
+  const [played, setPlayed] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [buffer, setBuffer] = useState(false)
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
+  useEffect(() => {
+    const saveHistory = async (data) => {
+      await sendRequest(data)
+    }
+    if (activeAudio && userId && activeAlbum !== "ประวัติการฟัง") {
+      saveHistory(addAudioToHistory(activeAudio.album, activeAudio._id))
+    }
+  }, [activeAudio, userId, sendRequest])
+
+  useEffect(() => {
+    setPlaying(true)
+  }, [activeAudio])
+
+  const handleSeekChange = (e) => {
+    playerRef.current.seekTo(parseFloat(e[1] / 100))
+    setPlayed(e[1] / 100)
+  }
+  const handleVolumeChange = (value) => {
+    setVolume([0, value[1]])
+  }
+
+  const handleDuration = (duration) => {
+    setDuration(duration)
+  }
+
+  const handleProgress = (state) => {
+    setPlayed(state.played)
+    if (played && buffer) {
+      setBuffer(false)
+    }
+  }
+  const handlePlay = () => {
+    setBuffer(false)
+  }
+
+  const handlePlaying = () => {
+    setPlaying((prevState) => !prevState)
+  }
+
+  // const handleVolumeButton = () => {
+  //   if (volume === 0) {
+  //     setVolume(0.8)
+  //   } else {
+  //     setVolume(0)
+  //   }
+  // }
+
+  const handleBuffer = () => {
+    setBuffer(true)
+  }
+
+  const handlePlayerPrevNext = (num) => {
+    if (!activeAudios) {
+      return
+    }
+    const index = activeAudios.findIndex((item) => {
+      return item._id === activeAudio._id
+    })
+    if (!activeAudios[index + num]) return
+    dispatch(changeActiveAudio(activeAudios[index + num]))
+  }
+  const handleOnEnd = () => {
+    handlePlayerPrevNext(1)
+  }
   return (
     <Flex
       flexDirection='column'
       width='100vw'
       position='fixed'
-      zIndex='2'
+      zIndex='3'
       bottom='0'
+      transform={{
+        base: activeAudio ? "" : "translateY(250px)",
+      }}
+      transition='all 700ms ease;'
     >
+      {isShowPlayerList && (
+        <PlayerList
+          setIsShowPlayerList={setIsShowPlayerList}
+          audios={activeAudios}
+          name={activeAlbum}
+        />
+      )}
+      <ReactPlayer
+        className='react-player'
+        style={{ display: "none" }}
+        playing={playing}
+        ref={playerRef}
+        url={`${activeAudio?.source?.url}`}
+        onPlay={handlePlay}
+        onProgress={handleProgress}
+        onDuration={handleDuration}
+        onError={() => {}}
+        volume={volume[1] / 100}
+        onBuffer={handleBuffer}
+        onEnded={handleOnEnd}
+      />
+
       <Flex
         display={{ base: "flex", lg: "none" }}
         width='100%'
@@ -42,8 +150,8 @@ const Player = () => {
           step={0.1}
           min={0}
           max={100}
-          value={[50]}
-          id='player-range'
+          value={[0, played * 100]}
+          id='player-range-x'
           // value={[100]}
 
           // max={duration ? duration.toFixed(2) : 0}
@@ -66,7 +174,9 @@ const Player = () => {
               aria-label='prev'
               fontSize='30px'
               icon={<MdSkipPrevious />}
-              // onClick={prevSong}
+              onClick={() => {
+                handlePlayerPrevNext(-1)
+              }}
             />
 
             {playing ? (
@@ -76,7 +186,7 @@ const Player = () => {
                 aria-label='pause'
                 fontSize='30px'
                 icon={<MdOutlinePauseCircleFilled />}
-                //   onClick={() => setPlayState(false)}
+                onClick={handlePlaying}
               />
             ) : (
               <IconButton
@@ -85,7 +195,7 @@ const Player = () => {
                 aria-label='play'
                 fontSize='30px'
                 icon={<MdOutlinePlayCircleFilled />}
-                //   onClick={() => setPlayState(true)}
+                onClick={handlePlaying}
               />
             )}
             <IconButton
@@ -94,7 +204,9 @@ const Player = () => {
               aria-label='next'
               fontSize='24px'
               icon={<MdSkipNext />}
-              // onClick={nextSong}
+              onClick={() => {
+                handlePlayerPrevNext(1)
+              }}
             />
           </ButtonGroup>
         </Flex>
@@ -106,27 +218,33 @@ const Player = () => {
           marginX='10px'
         >
           <Flex width={{ base: "100%", lg: "20%" }} flexDirection='column'>
-            <Text as='h4' fontSize='12px'>
-              เสียงอ่านคู่มือมนุษย์
+            <Text
+              as='h4'
+              fontSize='12px'
+              textOverflow='ellipsis'
+              width='100%'
+              noOfLines='1'
+            >
+              {activeAudio?.name}
             </Text>
-            <Text fontSize='10px'>หลวงพ่อพุทธทาสภิกขุ</Text>
+            <Text fontSize='10px'>{activeAudio?.priest_name}</Text>
           </Flex>
           <Box display={{ base: "none", lg: "flex" }} width='80%'>
             <Box width='15%'>
-              <Text textAlign='center'>0:01</Text>
+              <Text textAlign='center'>{formatTime(duration * played)}</Text>
             </Box>
             <Flex width='70%' marginX='10px' alignItems='center'>
               <RangeSlider
-                aria-label={["min", "max"]}
+                // aria-label={["min", "max"]}
                 step={0.1}
                 min={0}
                 max={100}
-                value={[50]}
-                id='player-range'
+                value={[0, played * 100]}
+                id='player-range-x'
                 // value={[100]}
 
                 // max={duration ? duration.toFixed(2) : 0}
-                // onChange={onSeek}
+                onChange={handleSeekChange}
                 // onChangeStart={() => setIsSeeking(true)}
                 // onChangeEnd={() => setIsSeeking(false)}
               >
@@ -137,7 +255,7 @@ const Player = () => {
               </RangeSlider>
             </Flex>
             <Box width='15%'>
-              <Text textAlign='center'>1:43:38</Text>
+              <Text textAlign='center'>{formatTime(duration)}</Text>
             </Box>
           </Box>
         </Flex>
@@ -154,16 +272,15 @@ const Player = () => {
           </Flex>
           <Flex width='80%' marginX='10px' alignItems='center'>
             <RangeSlider
-              aria-label={["min", "max"]}
+              // aria-label={["min", "max"]}
               step={0.1}
               min={0}
               max={100}
-              value={[50]}
-              id='player-range-2'
+              value={volume}
               // value={[100]}
-
+              id='volume'
               // max={duration ? duration.toFixed(2) : 0}
-              // onChange={onSeek}
+              onChange={handleVolumeChange}
               // onChangeStart={() => setIsSeeking(true)}
               // onChangeEnd={() => setIsSeeking(false)}
             >
@@ -181,7 +298,9 @@ const Player = () => {
             aria-label='prev'
             fontSize='30px'
             icon={<MdFormatListBulleted />}
-            // onClick={prevSong}
+            onClick={() => {
+              setIsShowPlayerList((prev) => !prev)
+            }}
           />
         </Flex>
       </Flex>

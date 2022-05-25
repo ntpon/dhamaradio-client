@@ -98,7 +98,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         width='250px'
         bg='white'
         boxShadow='base'
-        zIndex={{ base: "3", md: "2" }}
+        zIndex={{ base: "4", md: "2" }}
         transform={{
           base: showSidebar ? "translateX(0)" : "translateX(-250px)",
           md: "translateX(0)",

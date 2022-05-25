@@ -14,7 +14,7 @@ const AlbumShow = ({ response }) => {
         description={album.description}
         image={album.image.url}
       >
-        <AudioTable isAction audios={album.audios} />
+        <AudioTable isAction audios={album.audios} albumName={album.name} />
       </AudioLayout>
     </PageContainer>
   )

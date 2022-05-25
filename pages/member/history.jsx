@@ -18,6 +18,8 @@ const History = ({ response }) => {
           response.data.history.map((audio) => {
             return {
               ...audio.audio,
+              _id: audio._id,
+              updatedAt: audio.updatedAt,
             }
           })
         )
@@ -32,7 +34,11 @@ const History = ({ response }) => {
         title='ประวัติการฟัง'
         description='ประวัติการฟังเสียงทั้งหมด'
       >
-        <AudioTable audios={audios} isLoading={isLoading} />
+        <AudioTable
+          audios={audios}
+          isLoading={isLoading}
+          albumName='ประวัติการฟัง'
+        />
       </AudioLayout>
     </PageContainer>
   )
