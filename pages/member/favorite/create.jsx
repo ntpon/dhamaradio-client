@@ -106,4 +106,6 @@ const FavoriteCreate = () => {
   )
 }
 
+FavoriteCreate.authPage = true
+
 export default FavoriteCreate

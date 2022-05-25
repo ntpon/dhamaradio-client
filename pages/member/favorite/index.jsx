@@ -43,5 +43,6 @@ const Favorite = () => {
     </PageContainer>
   )
 }
+Favorite.authPage = true
 
 export default Favorite

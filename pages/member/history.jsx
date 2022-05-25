@@ -47,4 +47,6 @@ const History = ({ response }) => {
 //   const response = await fetcher(`member/history/audio`)
 //   return { props: { response } }
 // }
+History.authPage = true
+
 export default History

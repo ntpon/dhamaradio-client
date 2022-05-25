@@ -35,5 +35,6 @@ const FavoriteShow = () => {
     </PageContainer>
   )
 }
+FavoriteShow.authPage = true
 
 export default FavoriteShow
