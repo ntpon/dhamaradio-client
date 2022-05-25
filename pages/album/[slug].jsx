@@ -28,7 +28,7 @@ export const getStaticPaths = async () => {
   const response = await fetcher("client/album")
 
   const paths = response.data.albums.map((album) => {
-    console.log(album)
+    // console.log(album)
     return {
       params: {
         slug: album.slug,

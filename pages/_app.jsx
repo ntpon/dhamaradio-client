@@ -6,6 +6,8 @@ import { store } from "../lib/store/store"
 import NextNProgress from "nextjs-progressbar"
 
 import "../styles/globals.css"
+import ProtectLayout from "../components/layout/protect-layout"
+import App from "../components/App"
 const theme = extendTheme({
   fonts: {
     body: "IBM Plex Sans Thai",
@@ -18,9 +20,19 @@ const MyApp = ({ Component, pageProps }) => {
       <ChakraProvider theme={theme}>
         <NextNProgress color='teal' options={{ showSpinner: false }} />
         <Fonts />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <App>
+          {!Component.authPage ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : (
+            <ProtectLayout>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ProtectLayout>
+          )}
+        </App>
       </ChakraProvider>
     </Provider>
   )

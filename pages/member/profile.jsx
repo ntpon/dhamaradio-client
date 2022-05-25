@@ -38,4 +38,7 @@ const Profile = () => {
     </PageContainer>
   )
 }
+
+Profile.authPage = true
+
 export default Profile

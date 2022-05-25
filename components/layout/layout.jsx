@@ -7,28 +7,27 @@ import LoginModal from "../auth/login-modal"
 import RegisterModal from "../auth/register-modal"
 import { useSelector, useDispatch } from "react-redux"
 import { getUserFromStorage } from "../../lib/user"
-import { loginSuccess } from "../../lib/store/auth/auth.slice"
+import { loginSuccess, setAuthReady } from "../../lib/store/auth/auth.slice"
+import { useRouter } from "next/router"
 import FavoriteModal from "../favorite/favorite-modal"
 
 const Layout = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
+  // const [loading, setLoading] = useState(true)
+  // const dispatch = useDispatch()
 
-  useEffect(() => {
-    const user = getUserFromStorage()
-    if (user) {
-      dispatch(loginSuccess(user))
-    }
-    setLoading(false)
-  }, [dispatch])
-  if (loading) {
-    return <></>
-  }
-  // console.log(isModalLogin)
-  // const isModalLogin = useStoreState((state) => state.isModalLogin)
-  // console.log(state)
-  // const isModalRegister = useStoreState((store) => store.isModalRegister)
+  // useEffect(() => {
+  //   const user = getUserFromStorage()
+  //   if (user) {
+  //     dispatch(loginSuccess(user))
+  //   }
+  //   setLoading(false)
+  // }, [dispatch])
+
+  // if (loading) {
+  //   return <></>
+  // }
+
   return (
     <Box>
       <Navbar setShowSidebar={setShowSidebar} />

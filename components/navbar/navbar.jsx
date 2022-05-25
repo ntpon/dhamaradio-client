@@ -17,10 +17,12 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   changeIsModalLogin,
   changeIsModalRegister,
+  reset,
 } from "../../lib/store/application/application.slice"
 import { logout } from "../../lib/store/auth/auth.slice"
 const Navbar = ({ setShowSidebar }) => {
   const dispatch = useDispatch()
+
   const { userId } = useSelector((state) => state.auth)
   return (
     <Flex
@@ -78,6 +80,7 @@ const Navbar = ({ setShowSidebar }) => {
             variant='solid'
             onClick={() => {
               dispatch(logout())
+              dispatch(reset())
             }}
           >
             ออกจากระบบ

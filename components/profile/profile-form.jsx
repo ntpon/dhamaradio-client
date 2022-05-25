@@ -76,7 +76,7 @@ const ProfileForm = () => {
     } else {
       fileIsValid = false
     }
-    console.log(pickedFile)
+    // console.log(pickedFile)
   }
 
   return (
