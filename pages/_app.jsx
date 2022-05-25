@@ -3,6 +3,7 @@ import { Provider } from "react-redux"
 import Layout from "../components/layout/layout"
 import Fonts from "../components/fonts/fonts"
 import { store } from "../lib/store/store"
+import NextNProgress from "nextjs-progressbar"
 
 import "../styles/globals.css"
 const theme = extendTheme({
@@ -15,6 +16,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <Provider store={store}>
       <ChakraProvider theme={theme}>
+        <NextNProgress color='teal' options={{ showSpinner: false }} />
         <Fonts />
         <Layout>
           <Component {...pageProps} />

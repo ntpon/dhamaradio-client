@@ -19,22 +19,35 @@ const AlbumShow = ({ response }) => {
     </PageContainer>
   )
 }
-export const getServerSideProps = async ({ query, req }) => {
-  const response = await fetcher(`client/album/${query.slug}`)
-  return { props: { response } }
-}
-
-// export const getStaticPaths = () => {
-//   const path = fetcher('')
-//   const paths = filePosts.map((post) => {
-//     return {
-//       params: {
-//         slug: post.slug,
-//       },
-//     }
-//   })
+// export const getServerSideProps = async ({ query, req }) => {
+//   const response = await fetcher(`client/album/${query.slug}`)
+//   return { props: { response } }
 // }
 
-// export const getStaticProps = () => {}
+export const getStaticPaths = async () => {
+  const response = await fetcher("client/album")
+
+  const paths = response.data.albums.map((album) => {
+    console.log(album)
+    return {
+      params: {
+        slug: album.slug,
+      },
+    }
+  })
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps = async ({ params: { slug, album } }) => {
+  const response = await fetcher(`client/album/${slug}`)
+  return {
+    props: {
+      response,
+    },
+  }
+}
 
 export default AlbumShow
