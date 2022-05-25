@@ -113,7 +113,9 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                   },
                   cursor: "pointer",
                 }}
-                onClick={() => handlePlay(audio)}
+                onClick={(e) => {
+                  handlePlay(audio)
+                }}
               >
                 <Td padding='10px' textAlign='center'>
                   {i + 1}
@@ -129,16 +131,22 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                     <IconButton
                       bg='none'
                       fontSize='2xl'
-                      onClick={() => handleOpenAddFavorite(audio._id)}
-                      zIndex='1'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleOpenAddFavorite(audio._id)
+                      }}
+                      zIndex={3}
                     >
                       <MdPlaylistAdd />
                     </IconButton>
                     <IconButton
                       bg='none'
                       fontSize='2xl'
-                      onClick={() => handleOpenAddDefaultFavorite(audio._id)}
-                      zIndex='1'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleOpenAddDefaultFavorite(audio._id)
+                      }}
+                      // zIndex='2'
                     >
                       <MdFavoriteBorder />
                     </IconButton>
