@@ -43,7 +43,7 @@ const SidebarItem = ({ name, route, icon, end = false, member = false }) => {
     >
       {/* <NextLink href={route} passHref> */}
       <LinkBox as='nav' cursor='pointer' onClick={handleNavLink}>
-        <LinkOverlay display='flex' alignItems='center'>
+        <LinkOverlay display='flex' alignItems='center' href={route}>
           <ListIcon
             as={icon}
             marginX='10px'
