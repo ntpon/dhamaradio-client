@@ -4,10 +4,9 @@ import Layout from "../components/layout/layout"
 import Fonts from "../components/fonts/fonts"
 import { store } from "../lib/store/store"
 import NextNProgress from "nextjs-progressbar"
-
-import "../styles/globals.css"
 import ProtectLayout from "../components/layout/protect-layout"
 import App from "../components/App"
+import "../styles/globals.css"
 const theme = extendTheme({
   fonts: {
     body: "IBM Plex Sans Thai",

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { getProfile } from "../lib/api"
 import { loginSuccess } from "../lib/store/auth/auth.slice"
 import { getUserFromStorage } from "../lib/user"
 const App = ({ children }) => {

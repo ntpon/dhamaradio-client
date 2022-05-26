@@ -128,7 +128,7 @@ const Player = () => {
         style={{ display: "none" }}
         playing={playing}
         ref={playerRef}
-        url={`${activeAudio?.source?.url}`}
+        url={activeAudio ? activeAudio?.source?.url : ""}
         onPlay={handlePlay}
         onProgress={handleProgress}
         onDuration={handleDuration}
