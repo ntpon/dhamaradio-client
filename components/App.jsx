@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { loginSuccess } from "../lib/store/auth/auth.slice"
+import { useDispatch, useSelector } from "react-redux"
+import { loginSuccess, setAuthReady } from "../lib/store/auth/auth.slice"
 import { getUserFromStorage } from "../lib/user"
+
 const App = ({ children }) => {
-  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
+  const { authReady } = useSelector((state) => state.auth)
   useEffect(() => {
     const user = getUserFromStorage()
-    if (user) {
+    if (user && authReady) {
       dispatch(loginSuccess(user))
+    } else {
+      dispatch(setAuthReady(true))
     }
-    setLoading(false)
-  }, [dispatch])
+    return () => {
+      setAuthReady(false)
+    }
+  }, [dispatch, authReady])
 
-  if (loading) {
-    return <></>
-  } else {
-    return children
-  }
+  return children
 }
 
 export default App

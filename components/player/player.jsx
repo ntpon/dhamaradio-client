@@ -29,7 +29,7 @@ const Player = () => {
   const { activeAudio, activeAudios, activeAlbum } = useSelector(
     (state) => state.application
   )
-  const { userId } = useSelector((state) => state.auth)
+  const { userId, authReady } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const [isShowPlayerList, setIsShowPlayerList] = useState(false)
   const playerRef = useRef(null)
@@ -44,10 +44,10 @@ const Player = () => {
     const saveHistory = async (data) => {
       await sendRequest(data)
     }
-    if (activeAudio && userId && activeAlbum !== "ประวัติการฟัง") {
+    if (activeAudio && userId && authReady && activeAlbum !== "ประวัติการฟัง") {
       saveHistory(addAudioToHistory(activeAudio.album, activeAudio._id))
     }
-  }, [activeAudio, userId, sendRequest])
+  }, [activeAudio, userId, authReady, sendRequest])
 
   useEffect(() => {
     setPlaying(true)

@@ -7,27 +7,12 @@ import LoginModal from "../auth/login-modal"
 import RegisterModal from "../auth/register-modal"
 import { useSelector, useDispatch } from "react-redux"
 import { getUserFromStorage } from "../../lib/user"
-import { loginSuccess, setAuthReady } from "../../lib/store/auth/auth.slice"
 import { useRouter } from "next/router"
 import FavoriteModal from "../favorite/favorite-modal"
 
 const Layout = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false)
-  // const [loading, setLoading] = useState(true)
-  // const dispatch = useDispatch()
-
-  // useEffect(() => {
-  //   const user = getUserFromStorage()
-  //   if (user) {
-  //     dispatch(loginSuccess(user))
-  //   }
-  //   setLoading(false)
-  // }, [dispatch])
-
-  // if (loading) {
-  //   return <></>
-  // }
-
+  const { authReady } = useSelector((state) => state.auth)
   return (
     <Box>
       <Navbar setShowSidebar={setShowSidebar} />
@@ -46,7 +31,7 @@ const Layout = ({ children }) => {
           {children}
         </Box>
       </Box>
-      <Player />
+      {authReady && <Player />}
       <LoginModal />
       <RegisterModal />
       <FavoriteModal />
