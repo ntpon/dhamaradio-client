@@ -66,7 +66,7 @@ const PlayerList = ({ setIsShowPlayerList, name, audios }) => {
               </Text>
             </Box>
             <Box>
-              <Text fontSize='18px' color='whiteAlpha.800'>
+              <Text fontSize='16px' color='whiteAlpha.800'>
                 {audio.name}
               </Text>
             </Box>
