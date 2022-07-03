@@ -47,10 +47,10 @@ const PlayerList = ({ setIsShowPlayerList, name, audios }) => {
       <Box overflowY='auto' height='100%' paddingBottom='60px'>
         {audios?.map((audio, index) => (
           <Flex
-            key={audio._id}
+            key={audio.id}
             padding='10px'
             alignItems='center'
-            bg={activeAudio._id === audio._id && "blackAlpha.300"}
+            bg={activeAudio.id === audio.id && "blackAlpha.300"}
             onClick={() => dispatch(changeActiveAudio(audio))}
             sx={{
               "&:hover": {

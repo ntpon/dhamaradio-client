@@ -39,12 +39,12 @@ const LoginModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const { message, data } = await sendRequest(login(email, password))
+      const { message, user, token } = await sendRequest(login(email, password))
       dispatch(
         loginSuccess({
-          role: data.role,
-          token: data.token,
-          userId: data.userId,
+          role: user.role,
+          token: token,
+          userId: user.id,
         })
       )
       dispatch(changeIsModalLogin(false))

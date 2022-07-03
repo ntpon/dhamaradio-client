@@ -25,7 +25,10 @@ import {
   setSelectAudioId,
 } from "../../lib/store/application/application.slice"
 import { useHttpClient } from "../../lib/hooks/use-http"
-import { addAudioToDefaultFavoriteList } from "../../lib/api"
+import {
+  addAudioToDefaultFavoriteList,
+  addAudioToFavoriteList,
+} from "../../lib/api"
 const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
   const dispatch = useDispatch()
   const { userId } = useSelector((state) => state.auth)
@@ -52,8 +55,8 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
       return
     }
     try {
-      const { message, data } = await sendRequest(
-        addAudioToDefaultFavoriteList(id)
+      const { message } = await sendRequest(
+        addAudioToFavoriteList("DEFAULT", id)
       )
       toast({ title: message, status: "success", isClosable: true })
     } catch (error) {
@@ -103,8 +106,8 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
           {!isLoading &&
             audios.map((audio, i) => (
               <Tr
-                key={audio._id}
-                bg={activeAudio?._id === audio._id && "blackAlpha.50"}
+                key={audio.id}
+                bg={activeAudio?.id === audio.id && "blackAlpha.50"}
                 sx={{
                   transform: "all .3s",
                   "&:hover": {
@@ -121,8 +124,12 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                   {i + 1}
                 </Td>
                 <Td padding='10px'>{audio.name}</Td>
-                <Td padding='10px'>{audio.priest_name}</Td>
-                <Td padding='10px'>{formatDate(new Date(audio.updatedAt))}</Td>
+                <Td padding='10px'>
+                  {audio.priestName || audio.album.priest.fullName || ""}
+                </Td>
+                <Td padding='10px'>
+                  {formatDate(new Date(audio.creationDate))}
+                </Td>
                 {/* <Td  padding='10px'>
                 {"เวลา"}
               </Td> */}
@@ -133,7 +140,7 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                       fontSize='2xl'
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleOpenAddFavorite(audio._id)
+                        handleOpenAddFavorite(audio.id)
                       }}
                       zIndex={3}
                     >
@@ -144,7 +151,7 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                       fontSize='2xl'
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleOpenAddDefaultFavorite(audio._id)
+                        handleOpenAddDefaultFavorite(audio.id)
                       }}
                       // zIndex='2'
                     >

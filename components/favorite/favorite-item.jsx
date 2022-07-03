@@ -1,9 +1,9 @@
 import { Box, Image, Text, Flex, LinkBox } from "@chakra-ui/react"
-const FavoriteItem = ({ id, image, name, number, onClickHandler }) => {
+const FavoriteItem = ({ slug, image, name, number, onClickHandler }) => {
   return (
     <LinkBox
       onClick={() => {
-        onClickHandler(id)
+        onClickHandler(slug)
       }}
       marginBottom='10px'
       sx={{

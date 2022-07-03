@@ -14,7 +14,11 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { addAudioToFavoriteList, getFavoriteMeList } from "../../lib/api"
+import {
+  addAudioToFavoriteList,
+  getFavoriteAudioBySlug,
+  getFavoriteMeList,
+} from "../../lib/api"
 import { useHttpClient } from "../../lib/hooks/use-http"
 import { changeIsModalAddFavorite } from "../../lib/store/application/application.slice"
 import FavoriteItem from "./favorite-item"
@@ -30,8 +34,8 @@ const FavoriteModal = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await sendRequest(getFavoriteMeList())
-        setFavorites(response.data.favorits)
+        const response = await sendRequest(getFavoriteAudioBySlug("with-count"))
+        setFavorites(response.playlists)
       } catch (error) {}
     }
     if (isModalAddFavorite) {
@@ -39,10 +43,10 @@ const FavoriteModal = () => {
     }
   }, [sendRequest, isModalAddFavorite])
 
-  const selectFavoriteHandle = async (id) => {
+  const selectFavoriteHandle = async (slug) => {
     try {
-      const { message, data } = await sendRequest(
-        addAudioToFavoriteList(id, selectAudioId)
+      const { message } = await sendRequest(
+        addAudioToFavoriteList(slug, selectAudioId)
       )
       toast({ title: message, status: "success", isClosable: true })
       dispatch(changeIsModalAddFavorite(false))
@@ -77,8 +81,8 @@ const FavoriteModal = () => {
           {!isLoading &&
             favorites.map((favorite) => (
               <FavoriteItem
-                key={favorite._id}
-                id={favorite._id}
+                key={favorite.slug}
+                slug={favorite.slug}
                 name={favorite.name}
                 number={favorite.audios.length}
                 onClickHandler={selectFavoriteHandle}

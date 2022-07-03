@@ -30,8 +30,8 @@ const Contact = () => {
     const fetchData = async () => {
       try {
         const response = await sendRequest(getProfile())
-        const { first_name, last_name, email } = response.data.user
-        setFullName(`${first_name} ${last_name}`)
+        const { firstName, lastName, email } = response.user
+        setFullName(`${firstName} ${lastName}`)
         setEmail(email)
       } catch (error) {}
     }
@@ -53,7 +53,7 @@ const Contact = () => {
     e.preventDefault()
     try {
       const creator = userId ? userId : null
-      const { message, data } = await sendRequest(
+      const { message } = await sendRequest(
         contact(fullName, email, phone, title, description, creator)
       )
       toast({ title: message, status: "success", isClosable: true })

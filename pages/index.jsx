@@ -4,26 +4,26 @@ import AlbumLayout from "../components/album/album-layout"
 import PageContainer from "../components/layout/page-container"
 import fetcher from "../lib/fetcher"
 const Home = ({ response }) => {
-  const { albumsRecommend, albumsPriest } = response.data
+  const { albumsRecommend, albumsPriest } = response
   return (
     <PageContainer title='หน้าแรก'>
       <AlbumLayout title='แนะนำรายการ' justifyContent='center'>
-        {albumsRecommend.map((album) => (
+        {albumsRecommend?.map((album) => (
           <AlbumItem
-            key={album._id}
+            key={album.slug}
             name={album.name}
-            image={album.image.url}
+            image={album.coverImage}
             description={album.description}
             slug={`/album/${album.slug}`}
           />
         ))}
       </AlbumLayout>
       <AlbumLayout title='พุทธทาส' justifyContent='center'>
-        {albumsPriest.map((album) => (
+        {albumsPriest?.map((album) => (
           <AlbumItem
-            key={album._id}
+            key={album.slug}
             name={album.name}
-            image={album.image.url}
+            image={album.coverImage}
             description={album.description}
             slug={`/album/${album.slug}`}
           />

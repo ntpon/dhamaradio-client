@@ -4,17 +4,17 @@ import ArtistItem from "../../components/artist/artist-item"
 import PageContainer from "../../components/layout/page-container"
 import fetcher from "../../lib/fetcher"
 const Artist = ({ response }) => {
-  const { priests } = response.data
+  const { priests } = response
 
   return (
     <PageContainer title='พระอาจารย์'>
-      <AlbumLayout title='พระอาจารย์'>
-        {priests.map((artist) => (
+      <AlbumLayout title='พระอาจารย์' justifyContent='left'>
+        {priests?.map((artist) => (
           <ArtistItem
             key={artist.slug}
-            name={artist.name}
+            name={artist.fullName}
             slug={artist.slug}
-            image={artist.avatar.url}
+            image={artist.avatar}
           />
         ))}
       </AlbumLayout>

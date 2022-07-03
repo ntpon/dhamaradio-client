@@ -60,14 +60,14 @@ const RegisterModal = () => {
     }
 
     try {
-      const { message, data } = await sendRequest(
+      const { message, token, user } = await sendRequest(
         register(firstName, lastName, email, password)
       )
       dispatch(
         loginSuccess({
-          role: data.role,
-          token: data.token,
-          userId: data.userId,
+          role: user.role,
+          userId: user.id,
+          token: token,
         })
       )
       dispatch(changeIsModalRegister(false))

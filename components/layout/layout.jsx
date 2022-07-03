@@ -20,8 +20,6 @@ const Layout = ({ children }) => {
         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         <Box
           marginLeft={{ base: "0px", md: "250px" }}
-          // paddingLeft='10px'
-          // bg='gray.50'
           minHeight='100%'
           zIndex='1'
           top='65'

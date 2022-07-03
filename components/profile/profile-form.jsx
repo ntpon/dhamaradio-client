@@ -42,7 +42,7 @@ const ProfileForm = () => {
     e.preventDefault()
 
     try {
-      const { message, data } = await sendRequest(
+      const { message, user } = await sendRequest(
         updateProfile(firstName, lastName, file)
       )
       toast({ title: message, status: "success", isClosable: true })
@@ -55,14 +55,10 @@ const ProfileForm = () => {
     const fetchData = async () => {
       try {
         const response = await sendRequest(getProfile())
-        const {
-          first_name,
-          last_name,
-          avatar: { url },
-        } = response.data.user
-        setFirstName(first_name)
-        setLastName(last_name)
-        setPreviewUrl(url)
+        const { firstName, lastName, avatar } = response.user
+        setFirstName(firstName)
+        setLastName(lastName)
+        setPreviewUrl(avatar)
       } catch (error) {}
     }
     fetchData()

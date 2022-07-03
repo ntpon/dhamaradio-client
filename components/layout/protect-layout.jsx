@@ -4,12 +4,12 @@ import { useSelector } from "react-redux"
 import { Box, Flex, Spinner } from "@chakra-ui/react"
 const ProtectLayout = ({ children }) => {
   const router = useRouter()
-  const { userId } = useSelector((state) => state.auth)
+  const { authReady, userId } = useSelector((state) => state.auth)
   useEffect(() => {
-    if (!userId) {
+    if (!userId && authReady) {
       router.push("/")
     }
-  }, [userId, router])
+  }, [userId, router, authReady])
   if (userId) {
     return children
   } else {

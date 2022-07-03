@@ -2,8 +2,9 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import AudioLayout from "../../../components/audio/audio-layout"
 import AudioTable from "../../../components/audio/audio-table"
+import Empty from "../../../components/empty/empty"
 import PageContainer from "../../../components/layout/page-container"
-import { getFavoriteAudioById } from "../../../lib/api"
+import { getFavoriteAudioBySlug } from "../../../lib/api"
 import { useHttpClient } from "../../../lib/hooks/use-http"
 
 const FavoriteShow = () => {
@@ -13,11 +14,13 @@ const FavoriteShow = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await sendRequest(getFavoriteAudioById(query.id))
-        setAlbum(response.data.favorit)
+        const response = await sendRequest(getFavoriteAudioBySlug(query.slug))
+        console.log(response)
+        setAlbum(response.playlist)
       } catch (error) {}
     }
-    if (query.id) {
+
+    if (query.slug) {
       fetchData()
     }
   }, [sendRequest, query])
@@ -30,7 +33,11 @@ const FavoriteShow = () => {
         description={album?.description}
         isLoading={isLoading}
       >
-        <AudioTable audios={album?.audios} isLoading={isLoading} />
+        {album?.audios.length > 0 ? (
+          <AudioTable audios={album?.audios} isLoading={isLoading} />
+        ) : (
+          <Empty />
+        )}
       </AudioLayout>
     </PageContainer>
   )

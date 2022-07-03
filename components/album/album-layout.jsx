@@ -35,7 +35,12 @@ const AlbumLayout = ({
         </Heading>
       </Center>
       <Divider />
-      <Flex marginTop='15px' wrap='wrap' {...othersPropsContainer}>
+      <Flex
+        marginTop='15px'
+        wrap='wrap'
+        justifyContent={{ base: "center" }}
+        {...othersPropsContainer}
+      >
         {isLoading ? (
           <>
             <Skeleton marginLeft='10px'>

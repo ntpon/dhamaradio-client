@@ -5,30 +5,34 @@ import PageContainer from "../../components/layout/page-container"
 import fetcher from "../../lib/fetcher"
 
 const AlbumShow = ({ response }) => {
-  const { album } = response.data
+  const { album } = response
   return (
     <PageContainer title={album.name}>
       <AudioLayout
         color='teal'
         title={album.name}
         description={album.description}
-        image={album.image.url}
+        image={album.coverImage}
       >
-        <AudioTable isAction audios={album.audios} albumName={album.name} />
+        <AudioTable
+          isAction
+          audios={album.audios.map((audio) => {
+            return {
+              ...audio,
+              priestName: album.priest.fullName,
+            }
+          })}
+          albumName={album.name}
+        />
       </AudioLayout>
     </PageContainer>
   )
 }
-// export const getServerSideProps = async ({ query, req }) => {
-//   const response = await fetcher(`client/album/${query.slug}`)
-//   return { props: { response } }
-// }
 
 export const getStaticPaths = async () => {
   const response = await fetcher("client/album")
 
-  const paths = response.data.albums.map((album) => {
-    // console.log(album)
+  const paths = response.albums.map((album) => {
     return {
       params: {
         slug: album.slug,
@@ -41,7 +45,7 @@ export const getStaticPaths = async () => {
   }
 }
 
-export const getStaticProps = async ({ params: { slug, album } }) => {
+export const getStaticProps = async ({ params: { slug } }) => {
   const response = await fetcher(`client/album/${slug}`)
   return {
     props: {

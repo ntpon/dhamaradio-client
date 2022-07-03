@@ -24,12 +24,12 @@ import { useSelector, useDispatch } from "react-redux"
 import { formatTime } from "../../lib/formatters"
 import { changeActiveAudio } from "../../lib/store/application/application.slice"
 import { useHttpClient } from "../../lib/hooks/use-http"
-import { addAudioToHistory } from "../../lib/api"
+import { addAudioToFavoriteList, addAudioToHistory } from "../../lib/api"
 const Player = () => {
   const { activeAudio, activeAudios, activeAlbum } = useSelector(
     (state) => state.application
   )
-  const { userId, authReady } = useSelector((state) => state.auth)
+  const { userId } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const [isShowPlayerList, setIsShowPlayerList] = useState(false)
   const playerRef = useRef(null)
@@ -38,16 +38,18 @@ const Player = () => {
   const [played, setPlayed] = useState(0)
   const [duration, setDuration] = useState(0)
   const [buffer, setBuffer] = useState(false)
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const { sendRequest } = useHttpClient()
 
   useEffect(() => {
     const saveHistory = async (data) => {
       await sendRequest(data)
     }
-    if (activeAudio && userId && authReady && activeAlbum !== "ประวัติการฟัง") {
-      saveHistory(addAudioToHistory(activeAudio.album, activeAudio._id))
+    if (activeAudio && userId && activeAlbum !== "ประวัติการฟัง") {
+      saveHistory(addAudioToFavoriteList("HISTORY", activeAudio.id)).catch(
+        (error) => {}
+      )
     }
-  }, [activeAudio, userId, authReady, sendRequest])
+  }, [activeAudio, userId, sendRequest])
 
   useEffect(() => {
     setPlaying(true)
@@ -79,14 +81,6 @@ const Player = () => {
     setPlaying((prevState) => !prevState)
   }
 
-  // const handleVolumeButton = () => {
-  //   if (volume === 0) {
-  //     setVolume(0.8)
-  //   } else {
-  //     setVolume(0)
-  //   }
-  // }
-
   const handleBuffer = () => {
     setBuffer(true)
   }
@@ -96,7 +90,7 @@ const Player = () => {
       return
     }
     const index = activeAudios.findIndex((item) => {
-      return item._id === activeAudio._id
+      return item.id === activeAudio.id
     })
     if (!activeAudios[index + num]) return
     dispatch(changeActiveAudio(activeAudios[index + num]))
@@ -128,7 +122,7 @@ const Player = () => {
         style={{ display: "none" }}
         playing={playing}
         ref={playerRef}
-        url={activeAudio ? activeAudio?.source?.url : ""}
+        url={activeAudio ? activeAudio?.source : ""}
         onPlay={handlePlay}
         onProgress={handleProgress}
         onDuration={handleDuration}
@@ -152,17 +146,11 @@ const Player = () => {
           max={100}
           value={[0, played * 100]}
           id='player-range-x'
-          // value={[100]}
-
-          // max={duration ? duration.toFixed(2) : 0}
-          // onChange={onSeek}
-          // onChangeStart={() => setIsSeeking(true)}
-          // onChangeEnd={() => setIsSeeking(false)}
+          onChange={handleSeekChange}
         >
           <RangeSliderTrack bg='gray.500'>
             <RangeSliderFilledTrack bg='gray.600' />
           </RangeSliderTrack>
-          {/* <RangeSliderThumb index={0} /> */}
         </RangeSlider>
       </Flex>
       <Flex width='100%' bg='gray.800' padding='10px' height='50px'>
@@ -227,7 +215,7 @@ const Player = () => {
             >
               {activeAudio?.name}
             </Text>
-            <Text fontSize='10px'>{activeAudio?.priest_name}</Text>
+            <Text fontSize='10px'>{activeAudio?.priestName}</Text>
           </Flex>
           <Box display={{ base: "none", lg: "flex" }} width='80%'>
             <Box width='15%'>

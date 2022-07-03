@@ -5,23 +5,23 @@ import ArtistLayout from "../../components/artist/artist-layout"
 import PageContainer from "../../components/layout/page-container"
 import fetcher from "../../lib/fetcher"
 const ArtistShow = ({ response }) => {
-  const { albums, priest } = response.data
+  const { priest } = response
   return (
     <PageContainer title='รายละเอียดพระอาจารย์'>
       <ArtistLayout
-        title={priest.name}
+        title={priest.fullName}
         description={priest.description}
-        image={priest.avatar.url}
+        image={priest.avatar}
       >
         <AlbumLayout
           justifyContent='center'
-          title={`รายการเสียงของ ${priest.name}`}
+          title={`รายการเสียงของ ${priest.fullName}`}
         >
-          {albums.map((album) => (
+          {priest.albums?.map((album) => (
             <AlbumItem
-              key={album._id}
+              key={album.slug}
               name={album.name}
-              image={album.image.url}
+              image={album.coverImage}
               description={album.description}
               slug={`/album/${album.slug}`}
             />
@@ -35,7 +35,7 @@ const ArtistShow = ({ response }) => {
 export const getStaticPaths = async () => {
   const response = await fetcher("client/priest")
 
-  const paths = response.data.priests.map((priest) => {
+  const paths = response.priests.map((priest) => {
     return {
       params: {
         slug: priest.slug,

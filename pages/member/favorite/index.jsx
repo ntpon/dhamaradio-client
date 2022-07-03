@@ -4,7 +4,7 @@ import AlbumItemNew from "../../../components/album/album-item-new"
 import AlbumLayout from "../../../components/album/album-layout"
 import MainContainer from "../../../components/layout/main-container"
 import PageContainer from "../../../components/layout/page-container"
-import { getFavoriteAudio } from "../../../lib/api"
+import { getFavoriteAudio, getFavoriteMeList } from "../../../lib/api"
 import { useHttpClient } from "../../../lib/hooks/use-http"
 
 const Favorite = () => {
@@ -13,8 +13,8 @@ const Favorite = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await sendRequest(getFavoriteAudio())
-        setAlbums(response.data.creatorFavorit)
+        const response = await sendRequest(getFavoriteMeList())
+        setAlbums(response.playlists)
       } catch (error) {}
     }
     fetchData()
@@ -23,19 +23,18 @@ const Favorite = () => {
   return (
     <PageContainer title='รายการเสียงที่บันทึกไว้'>
       <AlbumLayout title='รายการเสียงที่บันทึกไว้' isLoading={isLoading}>
-        <AlbumItem
+        {/* <AlbumItem
           name='รายการโปรด'
           description='รวมเสียงที่ชื่นชอบ'
           slug='/member/favorite/me'
-        />
-
-        {albums &&
-          albums.map((album) => (
+        /> */}
+        {albums?.length > 0 &&
+          albums?.map((album) => (
             <AlbumItem
-              key={album._id}
+              key={album.slug}
               name={album.name}
               description={album.description}
-              slug={`/member/favorite/${album._id}`}
+              slug={`/member/favorite/${album.slug}`}
             />
           ))}
         <AlbumItemNew />

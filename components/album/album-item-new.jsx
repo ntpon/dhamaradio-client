@@ -12,7 +12,7 @@ import { MdOutlineCreateNewFolder } from "react-icons/md"
 
 const AlbumItemNew = () => {
   return (
-    <Box marginTop='10px' width='160px' height='250px' marginX='15px'>
+    <Box marginTop='10px' width='160px' height='250px' margin='5px'>
       <NextLink href='/member/favorite/create' passHref>
         <LinkBox
           cursor='pointer'

@@ -20,10 +20,20 @@ import {
   reset,
 } from "../../lib/store/application/application.slice"
 import { logout } from "../../lib/store/auth/auth.slice"
+import { useState } from "react"
+import { useRouter } from "next/router"
 const Navbar = ({ setShowSidebar }) => {
   const dispatch = useDispatch()
-
-  const { userId } = useSelector((state) => state.auth)
+  const [search, setSearch] = useState("")
+  const { userId, authReady } = useSelector((state) => state.auth)
+  const router = useRouter()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (search) {
+      router.push("/album/search?q=" + search)
+      setSearch("")
+    }
+  }
   return (
     <Flex
       align='center'
@@ -65,48 +75,64 @@ const Navbar = ({ setShowSidebar }) => {
           </Text>
         </Heading>
       </Flex>
-      <Flex width={{ base: "50%", md: "35%" }}>
+      <Flex
+        width={{ base: "50%", md: "35%" }}
+        as='form'
+        onSubmit={handleSubmit}
+      >
         <InputGroup>
           <InputLeftElement pointerEvents='none'>
             <SearchIcon color='gray.300' />
           </InputLeftElement>
-          <Input type='tel' placeholder='ค้นหาเสียงธรรม พระอาจารย์' />
+          <Input
+            type='text'
+            placeholder='ค้นหาเสียงธรรม พระอาจารย์'
+            onChange={(e) => {
+              setSearch(e.target.value)
+            }}
+            value={search}
+          />
         </InputGroup>
       </Flex>
+
       <Flex>
-        {userId ? (
-          <Button
-            colorScheme='teal'
-            variant='solid'
-            onClick={() => {
-              dispatch(logout())
-              dispatch(reset())
-            }}
-          >
-            ออกจากระบบ
-          </Button>
-        ) : (
+        {authReady && (
           <>
-            <Button
-              colorScheme='teal'
-              variant='solid'
-              onClick={() => {
-                dispatch(changeIsModalLogin(true))
-              }}
-            >
-              เข้าสู่ระบบ
-            </Button>
-            <Box variant='solid' display={{ base: "none", md: "block" }}>
-              <Divider orientation='vertical' height='100%' marginX='5px' />
-            </Box>
-            <Button
-              colorScheme='teal'
-              variant='solid'
-              display={{ base: "none", md: "block" }}
-              onClick={() => dispatch(changeIsModalRegister(true))}
-            >
-              สมัครสมาชิก
-            </Button>
+            {userId ? (
+              <Button
+                colorScheme='teal'
+                variant='solid'
+                onClick={() => {
+                  dispatch(logout())
+                  dispatch(reset())
+                }}
+              >
+                ออกจากระบบ
+              </Button>
+            ) : (
+              <>
+                <Button
+                  colorScheme='teal'
+                  variant='solid'
+                  onClick={() => {
+                    dispatch(changeIsModalLogin(true))
+                  }}
+                >
+                  เข้าสู่ระบบ
+                </Button>
+                <Box variant='solid' display={{ base: "none", md: "block" }}>
+                  <Divider orientation='vertical' height='100%' marginX='5px' />
+                </Box>
+                <Button
+                  colorScheme='teal'
+                  variant='solid'
+                  display={{ base: "none", md: "block" }}
+                  onClick={() => dispatch(changeIsModalRegister(true))}
+                >
+                  สมัครสมาชิก
+                </Button>
+              </>
+            )}
           </>
         )}
       </Flex>
