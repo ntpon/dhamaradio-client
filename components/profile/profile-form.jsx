@@ -72,7 +72,6 @@ const ProfileForm = () => {
     } else {
       fileIsValid = false
     }
-    // console.log(pickedFile)
   }
 
   return (

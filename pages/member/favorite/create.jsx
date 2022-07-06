@@ -94,7 +94,7 @@ const FavoriteCreate = () => {
                 </Button>
                 <NextLink href='/member/favorite'>
                   <Button colorScheme='red' variant='solid'>
-                    ยกเลิก
+                    กลับ
                   </Button>
                 </NextLink>
               </ButtonGroup>
