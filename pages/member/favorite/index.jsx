@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import AlbumItem from "../../../components/album/album-item"
 import AlbumItemNew from "../../../components/album/album-item-new"
 import AlbumLayout from "../../../components/album/album-layout"
+import Empty from "../../../components/empty/empty"
 import MainContainer from "../../../components/layout/main-container"
 import PageContainer from "../../../components/layout/page-container"
 import { getFavoriteAudio, getFavoriteMeList } from "../../../lib/api"
@@ -23,12 +24,9 @@ const Favorite = () => {
   return (
     <PageContainer title='รายการเสียงที่บันทึกไว้'>
       <AlbumLayout title='รายการเสียงที่บันทึกไว้' isLoading={isLoading}>
-        {/* <AlbumItem
-          name='รายการโปรด'
-          description='รวมเสียงที่ชื่นชอบ'
-          slug='/member/favorite/me'
-        /> */}
-        {albums?.length > 0 &&
+        {!isLoading && !albums ? (
+          <Empty />
+        ) : (
           albums?.map((album) => (
             <AlbumItem
               key={album.slug}
@@ -36,7 +34,8 @@ const Favorite = () => {
               description={album.description}
               slug={`/member/favorite/${album.slug}`}
             />
-          ))}
+          ))
+        )}
         <AlbumItemNew />
       </AlbumLayout>
     </PageContainer>

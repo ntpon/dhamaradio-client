@@ -33,10 +33,10 @@ const FavoriteShow = () => {
         description={album?.description}
         isLoading={isLoading}
       >
-        {album?.audios.length > 0 ? (
-          <AudioTable audios={album?.audios} isLoading={isLoading} />
-        ) : (
+        {!isLoading && !album ? (
           <Empty />
+        ) : (
+          <AudioTable audios={album?.audios} isLoading={isLoading} />
         )}
       </AudioLayout>
     </PageContainer>

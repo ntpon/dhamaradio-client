@@ -125,11 +125,9 @@ const AudioTable = ({ isAction, audios = [], isLoading, albumName }) => {
                 </Td>
                 <Td padding='10px'>{audio.name}</Td>
                 <Td padding='10px'>
-                  {audio.priestName || audio.album.priest.fullName || ""}
+                  {audio.priestName || audio.album?.priest.fullName || ""}
                 </Td>
-                <Td padding='10px'>
-                  {formatDate(new Date(audio.creationDate))}
-                </Td>
+                <Td padding='10px'>{formatDate(new Date(audio.createdAt))}</Td>
                 {/* <Td  padding='10px'>
                 {"เวลา"}
               </Td> */}

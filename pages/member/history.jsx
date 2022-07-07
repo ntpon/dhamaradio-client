@@ -24,17 +24,22 @@ const History = ({ response }) => {
     <PageContainer title='ประวัติการฟัง'>
       <AudioLayout
         color='teal'
-        title={playlist?.name}
-        description={playlist?.description}
+        title={"ประวัติการฟัง"}
+        description={"ประวัติการฟังเสียงทั้งหมด"}
       >
-        {playlist?.audios?.length > 0 ? (
+        {!isLoading && !playlist ? (
+          <Empty />
+        ) : (
           <AudioTable
-            audios={playlist.audios}
+            audios={playlist?.map((a) => {
+              return {
+                ...a.audio,
+                id: a.id,
+              }
+            })}
             isLoading={isLoading}
             albumName='ประวัติการฟัง'
           />
-        ) : (
-          <Empty />
         )}
       </AudioLayout>
     </PageContainer>
