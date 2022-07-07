@@ -17,6 +17,7 @@ import {
   MdOutlinePauseCircleFilled,
   MdVolumeUp,
   MdFormatListBulleted,
+  MdVolumeOff,
 } from "react-icons/md"
 import ReactPlayer from "react-player"
 import PlayerList from "./player-list"
@@ -63,6 +64,13 @@ const Player = () => {
     setVolume([0, value[1]])
   }
 
+  const handleVolumeClick = (value) => {
+    if (volume[1] === 0) {
+      setVolume([0, 50])
+    } else {
+      setVolume([0, 0])
+    }
+  }
   const handleDuration = (duration) => {
     setDuration(duration)
   }
@@ -254,8 +262,10 @@ const Player = () => {
               variant='link'
               aria-label='prev'
               fontSize='30px'
-              icon={<MdVolumeUp />}
-              // onClick={prevSong}
+              icon={volume[1] === 0 ? <MdVolumeOff /> : <MdVolumeUp />}
+              onClick={() => {
+                handleVolumeClick()
+              }}
             />
           </Flex>
           <Flex width='80%' marginX='10px' alignItems='center'>
