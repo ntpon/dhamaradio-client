@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
           {children}
         </Box>
       </Box>
-      {authReady && <Player />}
+      <Player />
       <LoginModal />
       <RegisterModal />
       <FavoriteModal />
