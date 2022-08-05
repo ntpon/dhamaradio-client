@@ -10,21 +10,21 @@ const ProtectLayout = ({ children }) => {
       router.push("/");
     }
   }, [userId, router, authReady]);
-  return children;
-  // if (userId) {
-  // } else {
-  //   return (
-  //     <Flex justifyContent='center' alignItems='center' height='100vh'>
-  //       <Spinner
-  //         thickness='4px'
-  //         speed='0.65s'
-  //         emptyColor='gray.200'
-  //         color='blue.500'
-  //         size='xl'
-  //       />
-  //     </Flex>
-  //   )
-  // }
+  if (userId) {
+    return children;
+  } else {
+    return (
+      <Flex justifyContent="center" alignItems="center" height="100vh">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
+  }
 };
 
 export default ProtectLayout;
